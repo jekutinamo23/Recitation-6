@@ -1,50 +1,31 @@
-import java.util.Calendar;
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class StopWatch here.
- * 
- * @author (your name) 
+ * Write a description of class SecondsHand here.
+ *
+ * @author (your name)
  * @version (a version number or a date)
  */
-public class StopWatch
+public class SecondsHand extends Actor
 {
-    private boolean isInReset;
-    private long initialTime;
-    private long currentTime;
-
-    public StopWatch()
-    {
-        reset();
+    private int count;
+    private StopWatch stopWatch;
+    public SecondsHand(){
+        stopWatch = new StopWatch();
+        count = 0;
     }
 
-    public void reset()
+    /**
+     * Act - do whatever the SecondsHand wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
+    public void act()
     {
-        isInReset = true;
-        initialTime = 0;
-        currentTime = 0;
-    }
+        long elapsedTime = stopWatch.elapsedTime();
+        long longSeconds = elapsedTime / 1000;
+        int seconds = (int) longSeconds;
 
-    public void set(long seconds){
-	currentTime = Calendar.getInstance().getTimeInMillis();
-        initialTime = currentTime - (seconds*1000);
-    }
-    
-    public void startStop()
-    {
-        currentTime = Calendar.getInstance().getTimeInMillis();
-        if (isInReset){
-            initialTime = currentTime;
-            isInReset = false;
-        }
-    }
-
-    public long elapsedTime()
-    {
-        return currentTime-initialTime;
-    }
-
-    public String toString()
-    {
-        return "I need to implement";
+        count = (count + seconds) % 60;
+        setRotation(count*6);
     }
 }
